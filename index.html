@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="DrawingsDreamer: A Unified Multi-View Engineering Drawings Generation Model">
+  <meta name="description" content="DrawingsDreamer is a unified LLM-driven framework for generating structured, multi-view vector engineering drawings with geometric fidelity and cross-view alignment.">
+  <meta name="keywords" content="DrawingsDreamer, SVG generation, CAD, engineering drawings, multi-view generation, large language models">
+  <meta name="author" content="Shurui Liu, Weide Chen, Changwang Yi, Ancong Wu">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="DrawingsDreamer">
+  <meta property="og:title" content="DrawingsDreamer: A Unified Multi-View Engineering Drawings Generation Model">
+  <meta property="og:description" content="A unified sequence model for structured multi-view engineering drawings generation.">
+  <meta property="og:url" content="https://drawingsdreamer.github.io/">
+  <meta property="og:image" content="https://drawingsdreamer.github.io/static/images/drawingsdreamer/teaser.png">
+  <meta property="og:image:alt" content="DrawingsDreamer multi-view engineering drawing examples">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DrawingsDreamer">
+  <meta name="twitter:description" content="A unified model for multi-view engineering drawings generation.">
+  <meta name="twitter:image" content="https://drawingsdreamer.github.io/static/images/drawingsdreamer/teaser.png">
+  <meta name="citation_title" content="DrawingsDreamer: A Unified Multi-View Engineering Drawings Generation Model">
+  <meta name="citation_author" content="Liu, Shurui">
+  <meta name="citation_author" content="Chen, Weide">
+  <meta name="citation_author" content="Yi, Changwang">
+  <meta name="citation_author" content="Wu, Ancong">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="NeurIPS 2026">
+  <meta name="theme-color" content="#101828">
+  <title>DrawingsDreamer | Multi-View Engineering Drawings</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"DrawingsDreamer: A Unified Multi-View Engineering Drawings Generation Model","author":[{"@type":"Person","name":"Shurui Liu"},{"@type":"Person","name":"Weide Chen"},{"@type":"Person","name":"Changwang Yi"},{"@type":"Person","name":"Ancong Wu"}],"datePublished":"2026","description":"A unified LLM-driven framework for structured multi-view vector engineering drawings generation.","isAccessibleForFree":true,"url":"https://drawingsdreamer.github.io/"}
+  </script>
+  <style>
+    :root { --ink:#101828; --muted:#667085; --line:#e4e7ec; --accent:#635bff; --accent2:#12b76a; --wash:#f7f8fc; }
+    html { scroll-behavior:smooth; }
+    body { color:var(--ink); font-family:'DM Sans', sans-serif; background:#fff; }
+    h1,h2,h3,h4,.publication-title,.section-title { font-family:'Space Grotesk', sans-serif; }
+    .hero.hero-main { background: radial-gradient(circle at 15% 15%, #ede9fe 0, transparent 35%), linear-gradient(135deg,#fff 0%,#f8f9ff 55%,#f2f4ff 100%); padding:5.5rem 1.5rem 3rem; }
+    .eyebrow { letter-spacing:.14em; text-transform:uppercase; font-size:.75rem; font-weight:700; color:var(--accent); margin-bottom:1.25rem; }
+    .publication-title { font-size:clamp(2.35rem,6vw,4.7rem)!important; line-height:1.03!important; letter-spacing:-.045em; max-width:900px; margin:0 auto 1.4rem!important; }
+    .publication-authors { color:#344054; line-height:1.8; }
+    .publication-authors a { color:#4338ca; font-weight:600; }
+    .institution { color:var(--muted); font-size:1.05rem; margin-top:.6rem; }
+    .button.is-dark { background:var(--ink); }
+    .button.is-dark:hover { background:#344054; }
+    .button.is-light { border:1px solid var(--line); background:#fff; }
+    .hero.teaser { padding:2rem 1.5rem 3.25rem; }
+    .teaser img { width:100%; border-radius:18px; box-shadow:0 18px 50px rgba(16,24,40,.13); }
+    .caption { color:var(--muted); font-size:1rem; line-height:1.65; max-width:850px; margin:1.2rem auto 0; }
+    .section { padding:4.5rem 1.5rem; }
+    .section.is-light { background:var(--wash); }
+    .section-title { font-size:2rem; letter-spacing:-.03em; margin-bottom:1.5rem!important; }
+    .copy { color:#475467; font-size:1.08rem; line-height:1.82; }
+    .copy strong { color:var(--ink); }
+    .figure-card { background:#fff; border:1px solid var(--line); border-radius:16px; padding:1rem; height:100%; box-shadow:0 8px 24px rgba(16,24,40,.04); }
+    .figure-card img { width:100%; max-height:440px; object-fit:contain; border-radius:10px; background:#fff; }
+    .figure-card figcaption { padding:.9rem .35rem .2rem; color:var(--muted); line-height:1.55; font-size:.95rem; }
+    .task-card { border:1px solid var(--line); border-radius:14px; padding:1.25rem; background:#fff; height:100%; }
+    .task-card .tag { margin-bottom:.8rem; background:#eef2ff; color:#4338ca; font-weight:700; }
+    .task-card h3 { font-size:1.15rem; margin-bottom:.45rem; }
+    .task-card p { color:var(--muted); line-height:1.6; font-size:.95rem; }
+    .stat { border-left:3px solid var(--accent); padding:.2rem 0 .2rem 1rem; }
+    .stat strong { display:block; font-family:'Space Grotesk'; font-size:1.65rem; }
+    .stat span { color:var(--muted); font-size:.9rem; }
+    .bibtex { background:#101828; color:#e4e7ec; border-radius:14px; padding:1.35rem; overflow:auto; font-size:.88rem; line-height:1.6; }
+    .footer { background:#101828; color:#98a2b3; padding:2.5rem 1.5rem; }
+    .footer a { color:#c7d2fe; }
+    .nav-pills { display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; margin-top:1.25rem; }
+    .nav-pills a { color:#475467; padding:.4rem .8rem; border-radius:999px; font-size:.9rem; }
+    .nav-pills a:hover { background:#eef2ff; color:#4338ca; }
+    @media (max-width:768px) { .hero.hero-main { padding-top:3.5rem; } .section { padding:3rem 1rem; } .publication-authors { font-size:1rem!important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero hero-main" id="top">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <p class="eyebrow">NeurIPS 2026 · Creative AI</p>
+          <h1 class="publication-title">DrawingsDreamer:<br>A Unified Multi-View Engineering Drawings Generation Model</h1>
+          <div class="publication-authors is-size-5">
+            <a href="https://github.com/HowCCC" target="_blank">Shurui Liu</a><sup>1</sup>,
+            <span>Weide Chen</span><sup>2</sup>,
+            <span>Changwang Yi</span><sup>1</sup>,
+            <span>Ancong Wu</span><sup>1</sup>
+          </div>
+          <p class="institution"><sup>1</sup>School of Computer Science and Engineering, Sun Yat-sen University &nbsp; · &nbsp; <sup>2</sup>School of Intelligent Systems Engineering, Sun Yat-sen University</p>
+          <p class="institution">NeurIPS 2026</p>
+          <div class="buttons is-centered mt-5">
+            <a class="button is-dark is-rounded" href="static/pdfs/DrawingsDreamer-source.zip"><span class="icon"><i class="fas fa-file-archive"></i></span><span>Paper source</span></a>
+            <a class="button is-light is-rounded" href="static/pdfs/DrawingsDreamer.tex"><span class="icon"><i class="fas fa-file-code"></i></span><span>LaTeX</span></a>
+            <a class="button is-light is-rounded" href="static/pdfs/references.bib"><span class="icon"><i class="fas fa-book"></i></span><span>BibTeX file</span></a>
+            <a class="button is-light is-rounded" href="https://github.com/drawingsdreamer/drawingsdreamer.github.io" target="_blank"><span class="icon"><i class="fab fa-github"></i></span><span>Project repo</span></a>
+          </div>
+          <nav class="nav-pills" aria-label="Page sections"><a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#results">Results</a><a href="#citation">Citation</a></nav>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <figure class="teaser"><img src="static/images/drawingsdreamer/teaser.png" alt="DrawingsDreamer multi-view generation overview" loading="eager"><figcaption class="caption has-text-centered"><strong>DrawingsDreamer</strong> handles a full spectrum of multi-view modeling tasks. Orange-to-pink views denote inputs, while blue views denote generated outputs across top, front, right, and isometric projections.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section is-light" id="abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-variable is-8 is-vcentered">
+          <div class="column is-three-fifths"><h2 class="section-title">Abstract</h2><div class="copy"><p>Scalable Vector Graphics (SVG) are essential for modern industrial Computer-Aided Design (CAD). However, existing autoregressive SVG generation models are predominantly tailored for artistic creation and struggle to maintain the rigorous geometric fidelity and cross-view spatial alignment required for engineering drawings.</p><p class="mt-4">To bridge this gap, we introduce <strong>DrawingsDreamer</strong>, a unified Large Language Model (LLM)-driven framework for multi-view vector-based engineering drawings generation. By formulating generation purely as sequence modeling, we eliminate the need for raster image encoders. A streamlined representation with hierarchical postfix tokenization guides the model to establish local geometric coordinates before assigning semantic boundaries. A progressive task-aware curriculum lets one model transition from localized structural repair to macroscopic generation.</p></div></div>
+          <div class="column"><div class="columns is-mobile is-multiline"><div class="column is-half"><div class="stat"><strong>4</strong><span>canonical views</span></div></div><div class="column is-half"><div class="stat"><strong>1</strong><span>unified model</span></div></div><div class="column is-half"><div class="stat"><strong>5</strong><span>task configurations</span></div></div><div class="column is-half"><div class="stat"><strong>SVG</strong><span>structured output</span></div></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="container is-max-desktop">
+        <h2 class="section-title has-text-centered">From geometry to aligned view sequences</h2>
+        <div class="columns is-variable is-6 is-vcentered mb-6"><div class="column is-7"><figure class="figure-card"><img src="static/images/drawingsdreamer/representation.png" alt="Streamlined representation hierarchy" loading="lazy"><figcaption>Continuous coordinates are grouped into primitive boundaries, closed paths, and complete view-level sequences.</figcaption></figure></div><div class="column"><h3 class="title is-4">Streamlined Representation</h3><div class="copy"><p>We project each CAD object into a canonical set of front, right, top, and isometric views. Hierarchical postfix tokenization makes the model regress coordinates first and close each primitive with an explicit semantic boundary.</p><p class="mt-4">Global coordinate normalization preserves alignment across orthographic views while keeping the vocabulary compact and LLM-friendly.</p></div></div></div>
+        <div class="columns is-variable is-6 is-vcentered"><div class="column"><h3 class="title is-4">Progressive task-aware curriculum</h3><div class="copy"><p>The same autoregressive model is trained across microscopic repair and macroscopic generation. Sampling moves from local topology learning to partial view alignment and finally to unconstrained multi-view spatial translation.</p></div></div><div class="column is-7"><figure class="figure-card"><img src="static/images/drawingsdreamer/pipeline.png" alt="DrawingsDreamer training pipeline" loading="lazy"><figcaption>Training schedule and unified sequence modeling pipeline.</figcaption></figure></div></div>
+        <div class="columns is-multiline mt-6"><div class="column is-one-third"><div class="task-card"><span class="tag">01 · Generate</span><h3>Unconditional generation</h3><p>Sample all four aligned views directly from the learned drawing prior.</p></div></div><div class="column is-one-third"><div class="task-card"><span class="tag">02 · Translate</span><h3>Cross-view translation</h3><p>Translate between isometric and orthographic projections while retaining geometry.</p></div></div><div class="column is-one-third"><div class="task-card"><span class="tag">03 · Complete</span><h3>Partial view completion</h3><p>Complete missing orthographic views from an isometric view and a partial context.</p></div></div><div class="column is-one-third"><div class="task-card"><span class="tag">04 · Repair</span><h3>Path-level restoration</h3><p>Restore masked paths with local topological and syntactic validity.</p></div></div><div class="column is-one-third"><div class="task-card"><span class="tag">05 · Structure</span><h3>Postfix boundaries</h3><p>Use explicit end tokens to organize primitives, paths, and views into one sequence.</p></div></div></div>
+      </div>
+    </section>
+
+    <section class="section is-light" id="results">
+      <div class="container is-max-desktop">
+        <h2 class="section-title has-text-centered">Qualitative results</h2>
+        <p class="copy has-text-centered mb-6">The model produces structured drawings across conditional translation, completion, and unconditional sampling tasks.</p>
+        <div class="columns is-multiline"><div class="column is-half"><figure class="figure-card"><img src="static/images/drawingsdreamer/iso-to-orthographic.png" alt="Isometric to orthographic translation" loading="lazy"><figcaption><strong>Isometric → orthographic.</strong> Translation from an isometric context to the three aligned orthographic views.</figcaption></figure></div><div class="column is-half"><figure class="figure-card"><img src="static/images/drawingsdreamer/orthographic-to-iso.png" alt="Orthographic to isometric translation" loading="lazy"><figcaption><strong>Orthographic → isometric.</strong> Reconstructing a consistent isometric view from orthographic inputs.</figcaption></figure></div><div class="column is-half"><figure class="figure-card"><img src="static/images/drawingsdreamer/partial-completion.png" alt="Partial view completion" loading="lazy"><figcaption><strong>Partial view completion.</strong> Completing missing top and right views from an isometric and front-view context.</figcaption></figure></div><div class="column is-half"><figure class="figure-card"><img src="static/images/drawingsdreamer/unconditional.png" alt="Unconditional multi-view generation" loading="lazy"><figcaption><strong>Unconditional generation.</strong> Diverse, structurally valid multi-view engineering drawings sampled without context.</figcaption></figure></div></div>
+        <div class="columns is-vcentered mt-5"><div class="column is-8"><figure class="figure-card"><img src="static/images/drawingsdreamer/comparison.svg" alt="Comparison of generated engineering drawings" loading="lazy"><figcaption>Comparison of generated drawing quality across methods.</figcaption></figure></div><div class="column"><h3 class="title is-4">Structured outputs</h3><p class="copy">Because the output stays in a vector sequence format, generated drawings remain compact, editable, and directly usable in downstream CAD workflows.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="citation">
+      <div class="container is-max-desktop"><h2 class="section-title">Citation</h2><p class="copy mb-4">If DrawingsDreamer helps your research, please cite the work:</p><pre class="bibtex" id="bibtex-code">@inproceedings{liu2026drawingsdreamer,
+  title={DrawingsDreamer: A Unified Multi-View Engineering Drawings Generation Model},
+  author={Liu, Shurui and Chen, Weide and Yi, Changwang and Wu, Ancong},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2026},
+  url={https://drawingsdreamer.github.io/}
+}</pre><button class="button is-dark is-rounded mt-4" onclick="copyBibTeX()"><span class="icon"><i class="fas fa-copy"></i></span><span id="copy-label">Copy BibTeX</span></button></div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container is-max-desktop has-text-centered"><p>DrawingsDreamer · <a href="https://github.com/drawingsdreamer/drawingsdreamer.github.io" target="_blank">Source repository</a></p><p class="mt-2">Built with the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.</p></div></footer>
+  <script>
+    function copyBibTeX(){const text=document.getElementById('bibtex-code').innerText;navigator.clipboard.writeText(text).then(()=>{const label=document.getElementById('copy-label');label.textContent='Copied';setTimeout(()=>label.textContent='Copy BibTeX',1600);});}
+  </script>
+</body>
+</html>
