@@ -58,6 +58,13 @@
     .hero.teaser { padding:2rem 1.5rem 3.25rem; }
     .teaser img { width:100%; border-radius:18px; box-shadow:0 18px 50px rgba(16,24,40,.13); }
     .caption { color:var(--muted); font-size:1rem; line-height:1.65; max-width:850px; margin:1.2rem auto 0; }
+    .caption-gradient { display:inline-block; font-weight:700; }
+    .caption-gradient-orange { color:#ff8000; --caption-gradient:linear-gradient(90deg, #ff8000, #ff00ff); }
+    .caption-gradient-blue { color:#0000ff; --caption-gradient:linear-gradient(90deg, #00ffff, #0000ff); }
+    @supports ((background-clip:text) or (-webkit-background-clip:text)) {
+      .caption-gradient { background-image:var(--caption-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    }
+    @media (forced-colors:active) { .caption-gradient { background:none; color:CanvasText; } }
     .section { padding:4.5rem 1.5rem; }
     .section.is-light { background:var(--wash); }
     .section-title { font-size:2rem; letter-spacing:-.03em; margin-bottom:1.5rem!important; }
@@ -109,7 +116,7 @@
 
     <section class="hero teaser">
       <div class="container is-max-desktop">
-        <figure class="teaser"><img src="static/images/drawingsdreamer/teaser.png" alt="DrawingsDreamer multi-view generation overview" loading="eager"><figcaption class="caption has-text-centered"><strong>DrawingsDreamer</strong> handles a full spectrum of multi-view modeling tasks. Orange-to-pink views denote inputs, while blue views denote generated outputs across top, front, right, and isometric projections.</figcaption></figure>
+        <figure class="teaser"><img src="static/images/drawingsdreamer/teaser.png" alt="DrawingsDreamer multi-view generation overview" loading="eager"><figcaption class="caption has-text-centered"><strong>DrawingsDreamer</strong> handles a full spectrum of multi-view modeling tasks. <span class="caption-gradient caption-gradient-orange">Orange-to-pink gradients</span> denote the outputs, while <span class="caption-gradient caption-gradient-blue">blue gradients</span> represent the inputs across top, front, right, and isometric projections.</figcaption></figure>
       </div>
     </section>
 
