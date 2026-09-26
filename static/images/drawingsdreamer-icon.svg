@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>DrawingsDreamer engineering cube</title>
+  <rect width="64" height="64" rx="14" fill="#101828"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5">
+    <path d="M32 12 50 22.5 50 42 32 52 14 42 14 22.5Z" stroke="#ffffff"/>
+    <path d="M14 22.5 32 33 50 22.5M32 33V52" stroke="#67e8f9"/>
+    <path d="M32 12 50 22.5 32 33" stroke="#fb923c"/>
+  </g>
+</svg>
